@@ -14,13 +14,13 @@ namespace WebApiDocentes.Controllers
     public class DocentesController : ControllerBase
     {
 
-        private static List<Docente> lst = new List<Docente>(); 
+        private static List<Docente> lst = new List<Docente>();
 
         // GET: api/<DocentesController>
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(lst); 
+            return Ok(lst);
         }
 
         // POST api/<DocentesController>
@@ -32,8 +32,36 @@ namespace WebApiDocentes.Controllers
 
             lst.Add(dto);
             return Ok("se registro exitosamente el docente!");
-        
-            
         }
+
+        [HttpPut]
+        public IActionResult Put(Docente oDocente)
+        {
+            foreach(Docente aux in lst)
+            {
+                if(aux.Id == oDocente.Id)
+                {
+                    aux.Name = oDocente.Name;
+                    aux.LastName = oDocente.LastName;
+                    return Ok(oDocente); 
+                }
+            }
+            return NotFound(); 
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            foreach(Docente aux in lst)
+            {
+                if(aux.Id == id)
+                {
+                    lst.Remove(aux);
+                    return Ok("se elimino correctamente"); 
+                }
+            }
+            return NotFound(); 
+        }
+
     }
 }
